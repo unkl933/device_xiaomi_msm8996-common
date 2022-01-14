@@ -62,6 +62,21 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="spectrum_profile"
+        android:title="@string/spectrum_profile_title">
+
+        <org.lineageos.settings.device.preferences.SecureSettingListPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/spectrum_dialogTitle"
+            android:entries="@array/spectrum_profiles"
+            android:entryValues="@array/spectrum_values"
+            android:key="spectrum"
+            android:summary="@string/spectrum_summary"
+            android:title="@string/spectrum_title"
+            android:icon="@drawable/ic_performance" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="gestures"
         android:title="@string/gestures_title">
 
@@ -98,5 +113,4 @@
             android:title="@string/torch_brightness_title" />
 
     </PreferenceCategory>
-
 </PreferenceScreen>
