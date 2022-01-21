@@ -27,7 +27,6 @@
 
 import /vendor/etc/init/hw/init.qcom.power.rc
 import /vendor/etc/init/hw/init.qcom.usb.rc
-import /vendor/etc/init/hw/init.unkl.rc
 import /vendor/etc/init/hw/init.spectrum.rc
 import /vendor/etc/init/hw/init.target.rc
 
@@ -324,6 +323,36 @@ on boot
 
     # Wifi firmware reload path
     chown wifi wifi /sys/module/wlan/parameters/fwpath
+
+    # Set light thermal restrictions while optimizing apps
+    write /sys/kernel/msm_thermal/enabled 0
+    write /sys/kernel/msm_thermal/zone0  "1996800 2150400 50 51"
+    write /sys/kernel/msm_thermal/zone1  "1728000 2073600 52 53"
+    write /sys/kernel/msm_thermal/zone2  "1593600 1996800 54 55"
+    write /sys/kernel/msm_thermal/zone3  "1593600 1920000 55 55"
+    write /sys/kernel/msm_thermal/zone4  "1478400 1824000 55 56"
+    write /sys/kernel/msm_thermal/zone5  "1478400 1785600 56 57"
+    write /sys/kernel/msm_thermal/zone5  "1478400 1708800 57 58"
+    write /sys/kernel/msm_thermal/zone6  "1401600 1632000 57 58"
+    write /sys/kernel/msm_thermal/zone6  "1401600 1555200 57 58"
+    write /sys/kernel/msm_thermal/zone7  "1401600 1478400 57 58"
+    write /sys/kernel/msm_thermal/zone8  "1401600 1401600 57 58"
+    write /sys/kernel/msm_thermal/zone9  "1324800 1324800 57 58"
+    write /sys/kernel/msm_thermal/zone10 "1324800 1248000 57 58"
+    write /sys/kernel/msm_thermal/zone11 "1228800 1190400 57 58"
+    write /sys/kernel/msm_thermal/zone12 "1190400 1113600 57 58"
+    write /sys/kernel/msm_thermal/zone13 "1113600 1036800 57 58"
+    write /sys/kernel/msm_thermal/zone14 "1036800 940800 58 59"
+    write /sys/kernel/msm_thermal/zone15 "960000 883200 58 59"
+    write /sys/kernel/msm_thermal/zone16 "844800 806400 58 59"
+    write /sys/kernel/msm_thermal/zone17 "729600 729600 58 59"
+    write /sys/kernel/msm_thermal/zone18 "652800 652800 58 59"
+    write /sys/kernel/msm_thermal/zone19 "556800 556800 58 59"
+    write /sys/kernel/msm_thermal/zone20 "480000 480000 59 60"
+    write /sys/kernel/msm_thermal/zone21 "422400 403200 60 61"
+    write /sys/kernel/msm_thermal/zone22 "307200 307200 62 63"
+    write /sys/kernel/msm_thermal/sampling_ms 1000
+    write /sys/kernel/msm_thermal/enabled 1
 
 on property:sys.boot_completed=1
     # Enable ZRAM on boot_complete

@@ -14,7 +14,7 @@ android_app {
     privileged: true,
 
     static_libs: [
-        "org.nusantara.settings.resources",
+        "org.lineageos.settings.resources",
     ],
 
     optimize: {

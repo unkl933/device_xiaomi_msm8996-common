@@ -1,4 +1,4 @@
- # Initialization
+# Initialization Spectrum
 on property:sys.boot_completed=1
    # Set default profile on first boot
    exec u:r:init:s0 root root -- /init.spectrum.sh
@@ -6,7 +6,7 @@ on property:sys.boot_completed=1
    # Enable Spectrum support
    setprop spectrum.support 1
 
-   setprop persist.unkl.kernel
+   setprop persist.spectrum.kernel BarokahProject-HMP
 
    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
    chown system system /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
@@ -28,7 +28,6 @@ on property:sys.boot_completed=1
 
 # Balance (default profile)
 on property:persist.spectrum.profile=0
-on property:persist.unkl.profile=0
   # Setup governor
   write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
   write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
@@ -38,16 +37,16 @@ on property:persist.unkl.profile=0
   write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 307200
 
   # Set max freqs
-  write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1593600
-  write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 2150400
+  write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1324800
+  write /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq 1824000
 
   # set up gpu
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
-  write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 624000000
+  write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 510000000
 
 # Performance
-on property:persist.unkl.profile=1
+on property:persist.spectrum.profile=1
   # Setup governor
   write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "ondemand"
   write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "ondemand"
@@ -66,7 +65,7 @@ on property:persist.unkl.profile=1
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 725000000
 
 # Battery
-on property:persist.unkl.profile=2
+on property:persist.spectrum.profile=2
   # Setup governor
   write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
   write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "powersave"
@@ -85,7 +84,7 @@ on property:persist.unkl.profile=2
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 401800000
 
 # Gaming
-on property:persist.unkl.profile=3
+on property:persist.spectrum.profile=3
   # Setup governor
   write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "performance"
   write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "performance"
@@ -104,7 +103,7 @@ on property:persist.unkl.profile=3
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 724000000
 
 # Extreme Battery
-on property:persist.unkl.profile=4
+on property:persist.spectrum.profile=4
   # Setup governor
   write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
   write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "powersave"
@@ -121,12 +120,3 @@ on property:persist.unkl.profile=4
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor powersave
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 401800000
-
-
-# Selected Profile
-		PROFILE=$(cat /sdcard/Android/data/selected-profile);
-		if [ PROFILE == 1] then setprop persist.unkl.profile 1
-		if [ PROFILE == 2] then setprop persist.unkl.profile 2
-		if [ PROFILE == 3] then setprop persist.unkl.profile 3
-		if [ PROFILE == 4] then setprop persist.unkl.profile 4
-		if [ PROFILE == 5] then setprop persist.unkl.profile 5

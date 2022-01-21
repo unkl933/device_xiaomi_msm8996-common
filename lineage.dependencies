@@ -1,0 +1,7 @@
+[
+  {
+    "remote":      "lineage",
+    "repository": "android_hardware_xiaomi",
+    "target_path": "hardware/xiaomi"
+  }
+]

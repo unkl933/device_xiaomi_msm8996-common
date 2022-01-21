@@ -46,9 +46,8 @@ public class DeviceSettings extends PreferenceFragment implements
 
     // Spectrum
     public static final String PREF_SPECTRUM = "spectrum";
-    public static final String SPECTRUM_SYSTEM_PROPERTY = "persist.unkl.profile";
+    public static final String SPECTRUM_SYSTEM_PROPERTY = "persist.spectrum.profile";
     private SecureSettingListPreference mSPECTRUM;
-
 
     // Buttons
     private static final String CATEGORY_BUTTONS = "buttons";
