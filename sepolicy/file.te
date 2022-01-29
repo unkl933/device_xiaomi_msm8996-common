@@ -14,5 +14,7 @@ type sysfs_fpc_wakeup, sysfs_type, fs_type;
 type sysfs_fpc_proximity, sysfs_type, fs_type;
 type sysfs_panel, sysfs_type, fs_type;
 type thermal_data_file, core_data_file_type, data_file_type, file_type;
+type sysfs_power_supply, sysfs_type, fs_type;
+type sysfs_spmi, sysfs_type, fs_type;
 type kcal_dev, sysfs_type, fs_type;
 type sysfs_torch, sysfs_type, fs_type;

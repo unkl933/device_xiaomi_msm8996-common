@@ -25,6 +25,8 @@ on property:sys.boot_completed=1
    chmod 0664 /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
    chmod 0664 /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
    chmod 0664 /sys/class/kgsl/kgsl-3d0/devfreq/governor
+   chown system system /sys/kernel/msm_thermal/enabled
+   chmod 0664 /sys/kernel/msm_thermal/enabled
 
 # Balance (default profile)
 on property:persist.spectrum.profile=0
@@ -44,6 +46,9 @@ on property:persist.spectrum.profile=0
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 510000000
+  
+  # set thermal on off
+  write /sys/kernel/msm_thermal/enabled 1
 
 # Performance
 on property:persist.spectrum.profile=1
@@ -63,6 +68,9 @@ on property:persist.spectrum.profile=1
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 315000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 725000000
+  
+  # set thermal on off
+  write /sys/kernel/msm_thermal/enabled 0
 
 # Battery
 on property:persist.spectrum.profile=2
@@ -82,6 +90,9 @@ on property:persist.spectrum.profile=2
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor powersave
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 401800000
+  
+  # set thermal on off
+  write /sys/kernel/msm_thermal/enabled 1
 
 # Gaming
 on property:persist.spectrum.profile=3
@@ -99,8 +110,11 @@ on property:persist.spectrum.profile=3
 
   # set up gpu
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor performance
-  write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 315000000
-  write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 724000000
+  write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
+  write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 725000000
+  
+  # set thermal on off
+  write /sys/kernel/msm_thermal/enabled 0
 
 # Extreme Battery
 on property:persist.spectrum.profile=4
@@ -120,3 +134,7 @@ on property:persist.spectrum.profile=4
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor powersave
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 401800000
+  
+  # set thermal on off
+  write /sys/kernel/msm_thermal/enabled 1
+
