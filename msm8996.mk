@@ -25,7 +25,8 @@ $(call inherit-product, vendor/xiaomi/msm8996-common/msm8996-common-vendor.mk)
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay
+    $(LOCAL_PATH)/overlay \
+    $(LOCAL_PATH)/overlay-nad
 
 PRODUCT_ENFORCE_RRO_TARGETS := *
 
@@ -280,7 +281,7 @@ PRODUCT_COPY_FILES += \
 # Mi Ringtone
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/extra/ringtone/Mi.ogg:$(TARGET_COPY_OUT_PRODUCT)/media/audio/ringtones/Mi.ogg
-
+	
 # Net
 PRODUCT_PACKAGES += \
     android.system.net.netd@1.0 \
@@ -294,6 +295,11 @@ PRODUCT_PACKAGES += \
     NfcNci \
     SecureElement \
     Tag
+
+# Offline charger
+PRODUCT_PACKAGES += \
+    charger_res_images \
+    product_charger_res_images
 
 # OMX
 PRODUCT_PACKAGES += \
@@ -402,7 +408,8 @@ PRODUCT_COPY_FILES += \
 
 # Vibrator
 PRODUCT_PACKAGES += \
-    vendor.qti.hardware.vibrator.service
+    android.hardware.vibrator@1.0-impl:64 \
+    android.hardware.vibrator@1.0-service
 
 # WiFi
 PRODUCT_PACKAGES += \
