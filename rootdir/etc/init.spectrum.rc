@@ -5,9 +5,7 @@ on property:sys.boot_completed=1
    exec u:r:su:s0 root root -- /init.spectrum.sh
    # Enable Spectrum support
    setprop spectrum.support 1
-
    setprop persist.spectrum.kernel BarokahProject-HMP
-
    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
    chown system system /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
    chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
@@ -20,13 +18,21 @@ on property:sys.boot_completed=1
    chmod 0664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
    chmod 0664 /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq
    chown system system /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
+   chown system system /sys/class/kgsl/kgsl-3d0/max_gpuclk
+   chown system system /sys/class/kgsl/kgsl-3d0/min_clock_mhz
    chown system system /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
    chown system system /sys/class/kgsl/kgsl-3d0/devfreq/governor
+   chown system system /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate
+   chmod 0664 /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate
    chmod 0664 /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
+   chmod 0664 /sys/class/kgsl/kgsl-3d0/max_gpuclk
+   chmod 0664 /sys/class/kgsl/kgsl-3d0/min_clock_mhz
    chmod 0664 /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
    chmod 0664 /sys/class/kgsl/kgsl-3d0/devfreq/governor
    chown system system /sys/kernel/msm_thermal/enabled
    chmod 0664 /sys/kernel/msm_thermal/enabled
+   chown system system /sys/block/sda/queue/scheduler
+   chmod 0664 /sys/block/sda/queue/scheduler
 
 # Balance (default profile)
 on property:persist.spectrum.profile=0
@@ -46,9 +52,13 @@ on property:persist.spectrum.profile=0
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 510000000
-  
+  write /sys/class/kgsl/kgsl-3d0/max_gpuclk 510000000
+  write /sys/class/kgsl/kgsl-3d0/min_clock_mhz 133
+  write /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate 1
+
   # set thermal on off
   write /sys/kernel/msm_thermal/enabled 1
+  write /sys/block/sda/queue/scheduler maple
 
 # Performance
 on property:persist.spectrum.profile=1
@@ -66,11 +76,15 @@ on property:persist.spectrum.profile=1
 
   # set up gpu
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
-  write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 315000000
+  write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 725000000
-  
+  write /sys/class/kgsl/kgsl-3d0/max_gpuclk 725000000
+  write /sys/class/kgsl/kgsl-3d0/min_clock_mhz 133
+  write /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate 1
+
   # set thermal on off
   write /sys/kernel/msm_thermal/enabled 0
+  write /sys/block/sda/queue/scheduler maple
 
 # Battery
 on property:persist.spectrum.profile=2
@@ -90,9 +104,13 @@ on property:persist.spectrum.profile=2
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor powersave
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 401800000
-  
+  write /sys/class/kgsl/kgsl-3d0/max_gpuclk 401800000
+  write /sys/class/kgsl/kgsl-3d0/min_clock_mhz 133
+  write /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate 1
+
   # set thermal on off
   write /sys/kernel/msm_thermal/enabled 1
+  write /sys/block/sda/queue/scheduler maple
 
 # Gaming
 on property:persist.spectrum.profile=3
@@ -112,9 +130,13 @@ on property:persist.spectrum.profile=3
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor performance
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 725000000
-  
+  write /sys/class/kgsl/kgsl-3d0/max_gpuclk 725000000
+  write /sys/class/kgsl/kgsl-3d0/min_clock_mhz 133
+  write /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate 1
+
   # set thermal on off
   write /sys/kernel/msm_thermal/enabled 0
+  write /sys/block/sda/queue/scheduler maple
 
 # Extreme Battery
 on property:persist.spectrum.profile=4
@@ -134,7 +156,10 @@ on property:persist.spectrum.profile=4
   write /sys/class/kgsl/kgsl-3d0/devfreq/governor powersave
   write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 133000000
   write /sys/class/kgsl/kgsl-3d0/devfreq/max_freq 401800000
-  
+  write /sys/class/kgsl/kgsl-3d0/max_gpuclk 401800000
+  write /sys/class/kgsl/kgsl-3d0/min_clock_mhz 133
+  write /sys/module/simple_gpu_algorithm/parameters/simple_gpu_activate 1
+
   # set thermal on off
   write /sys/kernel/msm_thermal/enabled 1
-
+  write /sys/block/sda/queue/scheduler maple
