@@ -21,54 +21,176 @@ if [ ! -f "${HELPER}" ]; then
 fi
 source "${HELPER}"
 
+# Default to sanitizing the vendor folder before extraction
+CLEAN_VENDOR=true
+
+ONLY_COMMON=
+ONLY_TARGET=
+KANG=
+SECTION=
+
+while [ "${#}" -gt 0 ]; do
+    case "${1}" in
+        --only-common )
+                ONLY_COMMON=true
+                ;;
+        --only-target )
+                ONLY_TARGET=true
+                ;;
+        -n | --no-cleanup )
+                CLEAN_VENDOR=false
+                ;;
+        -k | --kang )
+                KANG="--kang"
+                ;;
+        -s | --section )
+                SECTION="${2}"; shift
+                CLEAN_VENDOR=false
+                ;;
+        * )
+                SRC="${1}"
+                ;;
+    esac
+    shift
+done
+
+if [ -z "${SRC}" ]; then
+    SRC="adb"
+fi
+
 function blob_fixup() {
     case "${1}" in
+    # Move telephony packages to /system_ext
     system_ext/etc/init/dpmd.rc)
         sed -i "s/\/system\/product\/bin\//\/system\/system_ext\/bin\//g" "${2}"
         ;;
-    system_ext/etc/permissions/com.qti.dpmframework.xml)
-        ;&
-    system_ext/etc/permissions/dpmapi.xml)
+
+    # Move telephony packages to /system_ext
+    system_ext/etc/permissions/com.qti.dpmframework.xml|system_ext/etc/permissions/dpmapi.xml|system_ext/etc/permissions/telephonyservice.xml)
         sed -i "s/\/system\/product\/framework\//\/system\/system_ext\/framework\//g" "${2}"
         ;;
+
+    # Move telephony packages to /system_ext
     system_ext/etc/permissions/qcrilhook.xml)
-        ;&
-    system_ext/etc/permissions/telephonyservice.xml)
-        sed -i "s/\/system\/framework\//\/system\/system_ext\/framework\//g" "${2}"
+        sed -i "s/\/product\/framework\//\/system\/system_ext\/framework\//g" "${2}"
         ;;
-    system_ext/etc/permissions/qti_libpermissions.xml)
-        sed -i "s/name=\"android.hidl.manager-V1.0-java/name=\"android.hidl.manager@1.0-java/g" "${2}"
-        ;;
+
+   # Provide shim for libdpmframework.so
     system_ext/lib64/libdpmframework.so)
-        sed -i "s/libhidltransport.so/libcutils-v29.so\x00\x00\x00/" "${2}"
+        for  LIBCUTILS_SHIM in $(g# Patch blobs for VNDK
+    vendor/lib/libmmcamera2_stats_modules.so)
+        "${PATCHELF}" --remove-needed "libgui.so" "${2}"
+        sed -i "s|/data/misc/camera|/data/vendor/qcam|g" "${2}"
+        sed -i "s|libandroid.so|libcamshim.so|g" "${2}"
         ;;
-    vendor/bin/imsrcsd)
-        sed -i "s/libhidltransport.so/libbase_shim.so\x00\x00\x00\x00/" "${2}"
+
+    # Patch blobs for VNDK
+    vendor/lib/libmmcamera_ppeiscore.so | vendor/lib/libcamera_letv_algo.so)
+        "${PATCHELF}" --remove-needed "libgui.so" "${2}"
         ;;
+
+    # Patch blobs for VNDK
+    vendor/lib/libarcsoft_hdr_detection.so | vendor/lib/libmpbase.so | vendor/lib/libarcsoft_panorama_burstcapture.so | vendor/lib/libarcsoft_smart_denoise.so | vendor/lib/libarcsoft_nighthawk.so | vendor/lib/libarcsoft_hdr.so | vendor/lib/libarcsoft_night_shot.so)
+        "${PATCHELF}" --remove-needed "libandroid.so" "${2}"
+        ;;
+
+    # Patch blobs for VNDK
+    vendor/lib/libletv_algo_jni.so)
+        "${PATCHELF}" --remove-needed "libgui.so" "${2}"
+        "${PATCHELF}" --remove-needed "libandroid_runtime.so" "${2}"
+        ;;
+
+    # Patch blobs for VNDK
+    vendor/lib64/lib-dplmedia.so)
+        "${PATCHELF}" --remove-needed "libmedia.so" "${2}"
+        ;;
+rep -L "libcutils_shim.so" "${2}"); do
+            "${PATCHELF}" --add-needed "libcutils_shim.so" "$LIBCUTILS_SHIM"
+        done
+        ;;
+
+    # Add shim for libbase LogMessage functions
+    vendor/bin/imsrcsd | vendor/lib64/lib-uceservice.so)
+        for  LIBBASE_SHIM in $(grep -L "libbase_shim.so" "${2}"); do
+        "${PATCHELF}" --add-needed "libbase_shim.so" "$LIBBASE_SHIM"
+        done
+        ;;
+
     vendor/bin/slim_daemon)
         "${PATCHELF}" --replace-needed "android.frameworks.sensorservice@1.0.so" "android.frameworks.sensorservice@1.0-v27.so" "${2}"
         ;;
+
     vendor/lib64/hw/android.hardware.bluetooth@1.0-impl-qti.so)
         sed -i "s/libhidltransport.so/libbase_shim.so\x00\x00\x00\x00/" "${2}"
         ;;
-    vendor/lib64/hw/vulkan.msm8996.so)
-        sed -i "s/vulkan.msm8953.so/vulkan.msm8996.so/g" "${2}"
+
+    # kang vulkan from LA.UM.8.6.r1-01900-89xx.0
+    vendor/lib/hw/vulkan.msm8996.so | vendor/lib64/hw/vulkan.msm8996.so)
+        sed -i -e 's|vulkan.msm8953.so|vulkan.msm8996.so|g' "${2}"
         ;;
-    vendor/lib64/lib-uceservice.so)
-        sed -i "s/libhidltransport.so/libbase_shim.so\x00\x00\x00\x00/" "${2}"
+
+    # Add shim for libbase LogMessage functions
+    vendor/bin/imsrcsd | vendor/lib64/lib-uceservice.so)
+        for  LIBBASE_SHIM in $(grep -L "libbase_shim.so" "${2}"); do
+        "${PATCHELF}" --add-needed "libbase_shim.so" "$LIBBASE_SHIM"
+        done
         ;;
+
     vendor/lib64/libsettings.so)
         "${PATCHELF}" --replace-needed "libprotobuf-cpp-full.so" "libprotobuf-cpp-full-v28.so" "${2}"
         ;;
+
     vendor/lib64/vendor.qti.gnss@1.0_vendor.so)
         "${PATCHELF}" --replace-needed "android.hardware.gnss@1.0.so" "android.hardware.gnss@1.0-v27.so" "${2}"
         ;;
+
     vendor/lib/hw/vulkan.msm8996.so)
         sed -i "s/vulkan.msm8953.so/vulkan.msm8996.so/g" "${2}"
         ;;
+
     vendor/lib/libwvhidl.so)
         "${PATCHELF}" --replace-needed "libprotobuf-cpp-lite.so" "libprotobuf-cpp-lite-v28.so" "${2}"
         ;;
+
+    # Move ims libs to product
+    product/etc/permissions/com.qualcomm.qti.imscmservice.xml)
+        sed -i -e 's|file="/system/framework/|file="/product/framework/|g' "${2}"
+        ;;
+
+    # Move qti-vzw-ims-internal permission to vendor
+    vendor/etc/permissions/qti-vzw-ims-internal.xml)
+        sed -i -e 's|file="/system/vendor/|file="/vendor/|g' "${2}"
+        ;;
+
+
+    # Patch blobs for VNDK
+    vendor/lib/libmmcamera2_stats_modules.so)
+        "${PATCHELF}" --remove-needed "libgui.so" "${2}"
+        sed -i "s|/data/misc/camera|/data/vendor/qcam|g" "${2}"
+        sed -i "s|libandroid.so|libcamshim.so|g" "${2}"
+        ;;
+
+    # Patch blobs for VNDK
+    vendor/lib/libmmcamera_ppeiscore.so | vendor/lib/libcamera_letv_algo.so)
+        "${PATCHELF}" --remove-needed "libgui.so" "${2}"
+        ;;
+
+    # Patch blobs for VNDK
+    vendor/lib/libarcsoft_hdr_detection.so | vendor/lib/libmpbase.so | vendor/lib/libarcsoft_panorama_burstcapture.so | vendor/lib/libarcsoft_smart_denoise.so | vendor/lib/libarcsoft_nighthawk.so | vendor/lib/libarcsoft_hdr.so | vendor/lib/libarcsoft_night_shot.so)
+        "${PATCHELF}" --remove-needed "libandroid.so" "${2}"
+        ;;
+
+    # Patch blobs for VNDK
+    vendor/lib/libletv_algo_jni.so)
+        "${PATCHELF}" --remove-needed "libgui.so" "${2}"
+        "${PATCHELF}" --remove-needed "libandroid_runtime.so" "${2}"
+        ;;
+
+    # Patch blobs for VNDK
+    vendor/lib64/lib-dplmedia.so)
+        "${PATCHELF}" --remove-needed "libmedia.so" "${2}"
+        ;;
+
     esac
 }
 

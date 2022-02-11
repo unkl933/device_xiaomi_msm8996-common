@@ -1,0 +1,2 @@
+# R-11 Legion_updater
+allow updater_app system_data_file:dir { open read };

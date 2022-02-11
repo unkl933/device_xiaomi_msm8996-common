@@ -18,9 +18,11 @@ cc_library_static {
     name: "libinit.xiaomi_8996",
     recovery_available: true,
     srcs: ["init_msm8996.cpp"],
-    include_dirs: [
-        "system/core/base/include",
-        "system/core/init"
+   include_dirs: [
+        "system/libbase/include",
+        "system/core/init",
+        "external/selinux/libselinux/include",
+        "external/libcap/libcap/include"
     ],
     shared_libs: [
         "libbase",

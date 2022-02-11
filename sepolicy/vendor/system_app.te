@@ -1,0 +1,22 @@
+allow system_app hal_imsrcsd_hwservice:hwservice_manager find;
+
+allow system_app proc_touchpanel:dir { search };
+allow system_app proc_touchpanel:file { rw_file_perms };
+
+allow system_app sysfs_ir_enable:file { rw_file_perms };
+
+#DeviceSettings.apk need to get and set camera_prop
+get_prop(system_app, camera_prop)
+set_prop(system_app, camera_prop)
+
+# Power supply permissions for battery health
+allow system_app sysfs_battery_supply:dir { search };
+allow system_app sysfs_battery_supply:file { read open getattr };
+allow system_app sysfs_batteryinfo:dir { search };
+allow system_app sysfs_batteryinfo:file { read open getattr };
+allow system_app sysfs:file { read open getattr };
+
+# R-11 zram0
+allow system_app sysfs_zram:file r_file_perms;
+allow system_app sysfs_zram:dir search;
+allow system_app hal_imsrcsd_hwservice:hwservice_manager find;

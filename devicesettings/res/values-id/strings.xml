@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2020 The LineageOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="camera_hal3_title">Nonaktifkan/Aktifkan HAL3</string>
+    <string name="camera_hal3_summary">Menonaktifkan HAL3 akan memaksa penggunaan HAL1 sebagai gantinya. Harap dicatat bahwa mod Gcam memerlukan HAL3 dan Anda harus menunggu sebentar sebelum menggunakan aplikasi kamera karena akan membutuhkan waktu untuk memulai ulang HAL dan Layanan kamera.</string>
+    <string name="battery_settings_title">Baterai</string>
+    <string name="camera_pref_title">Kamera</string>
+    <string name="powersave_settings_title">Hemat Daya</string>
+    <string name="prefs_battery_saver_title">Pengoptimalan aplikasi</string>
+    <string name="prefs_battery_saver_summary">Pengoptimalan baterai untuk aplikasi sistem</string>
+    <string name="prefs_app_options_title">Penjaga Pemberitahuan</string>
+    <string name="prefs_app_options_summary">Opsi untuk notifikasi aplikasi</string>
+    <string name="app_title">Privasi aplikasi</string>
+    <string name="prefs_app_unknown_title">Aplikasi tidak dikenal</string>
+    <string name="prefs_app_unknown_summary">Opsi penginstalan untuk aplikasi yang tidak dikenal</string>
+</resources>

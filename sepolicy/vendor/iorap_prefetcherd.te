@@ -1,0 +1,6 @@
+#R-11 address iorapd
+allow iorap_prefetcherd system_app_data_file:dir { read };
+allow iorap_prefetcherd system_app_data_file:file { read };
+allow iorap_prefetcherd media_rw_data_file:file { open read };
+allow iorap_prefetcherd vendor_file:file { open read };
+allow iorap_prefetcherd resourcecache_data_file:dir { search read };

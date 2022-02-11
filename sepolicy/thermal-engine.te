@@ -1,5 +1,0 @@
-allow thermal-engine sysfs:dir r_dir_perms;
-
-r_dir_file(thermal-engine, sysfs_batteryinfo)
-
-allow thermal-engine sysfs_power_supply:dir search;

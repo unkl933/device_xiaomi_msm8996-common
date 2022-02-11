@@ -1,0 +1,7 @@
+set_prop(hal_audio_default, diag_prop)
+
+allow hal_audio_default acdbdelta_vendor_data_file:dir rw_dir_perms;
+allow hal_audio_default acdbdelta_vendor_data_file:file create_file_perms;
+
+#Dolby R-11
+allow hal_audio_default default_android_hwservice:hwservice_manager find;

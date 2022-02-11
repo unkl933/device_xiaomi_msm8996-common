@@ -37,11 +37,18 @@
 
 #define ALPHABET_LEN 256
 
+#ifdef USES_BOOTDEVICE_PATH
 #define MODEM_PART_PATH "/dev/block/bootdevice/by-name/modem"
+#define DEVINFO_PART_PATH "/dev/block/bootdevice/by-name/devinfo"
+#else
+#define MODEM_PART_PATH "/dev/block/platform/soc/624000.ufshc/by-name/modem"
+#define DEVINFO_PART_PATH "/dev/block/platform/soc/624000.ufshc/by-name/devinfo"
+#endif
 #define MODEM_VER_STR "Time_Stamp\": \""
 #define MODEM_VER_STR_LEN 14
 #define MODEM_VER_BUF_LEN 20
 
+#define DEVINFO_BUF_LEN 25
 /* Boyer-Moore string search implementation from Wikipedia */
 
 /* Return longest suffix length of suffix ending at str[p] */
@@ -197,4 +204,6 @@ Value* VerifyModemFn(const char* name, State* state,
 
 void Register_librecovery_updater_xiaomi() {
     RegisterFunction("xiaomi.verify_modem", VerifyModemFn);
+    RegisterFunction("xiaomi.get_device_variant", GetDeviceVariantFn);
+    RegisterFunction("xiaomi.file_exists", FileExistsFn);
 }

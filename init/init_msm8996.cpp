@@ -1,7 +1,7 @@
 /*
-   Copyright (c) 2015, The Linux Foundation. All rights reserved.
-   Copyright (C) 2016 The CyanogenMod Project.
-   Copyright (C) 2017-2020 The LineageOS Project.
+   Copyright (C) 2007, The Android Open Source Project
+   Copyright (c) 2016, The CyanogenMod Project
+   Copyright (c) 2017-2020, The LineageOS Project
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
@@ -29,18 +29,47 @@
    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/sysinfo.h>
-
+#include <android-base/logging.h>
 #include <android-base/properties.h>
+#include <android-base/strings.h>
 
-#include "property_service.h"
-#include "vendor_init.h"
-
+#include <sys/sysinfo.h>
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
 #include <sys/_system_properties.h>
 
+#include "vendor_init.h"
+#include "property_service.h"
+
+char const *heapstartsize;
+char const *heapgrowthlimit;
+char const *heapsize;
 char const *heapminfree;
 char const *heapmaxfree;
+char const *heaptargetutilization;
+
+void property_override(const std::string& name, const std::string& value)
+{
+    size_t valuelen = value.size();
+
+    prop_info* pi = (prop_info*) __system_property_find(name.c_str());
+    if (pi != nullptr) {
+        __system_property_update(pi, value.c_str(), valuelen);
+    }
+    else {
+        int rc = __system_property_add(name.c_str(), name.size(), value.c_str(), valuelen);
+        if (rc < 0) {
+            LOG(ERROR) << "property_override(\"" << name << "\", \"" << value << "\") failed: "
+                       << "__system_property_add failed";
+        }
+    }
+}
+
+void property_overrride_triple(const std::string& product_prop, const std::string& system_prop, const std::string& vendor_prop, const std::string& value)
+{
+    property_override(product_prop, value);
+    property_override(system_prop, value);
+    property_override(vendor_prop, value);
+}
 
 void check_device()
 {
@@ -48,36 +77,60 @@ void check_device()
 
     sysinfo(&sys);
 
-    if (sys.totalram > 3072ull * 1024 * 1024) {
-        // from - phone-xxxhdpi-4096-dalvik-heap.mk
-        heapminfree = "4m";
+    if (sys.totalram > 5072ull * 1024 * 1024) {
+        // from - phone-xhdpi-6144-dalvik-heap.mk
+        heapstartsize = "16m";
+        heapgrowthlimit = "256m";
+        heapsize = "512m";
+        heaptargetutilization = "0.5";
+        heapminfree = "8m";
+        heapmaxfree = "32m";
+    } else if (sys.totalram > 3072ull * 1024 * 1024) {
+        // from - phone-xhdpi-4096-dalvik-heap.mk
+        heapstartsize = "8m";
+        heapgrowthlimit = "192m";
+        heapsize = "512m";
+        heaptargetutilization = "0.6";
+        heapminfree = "8m";
         heapmaxfree = "16m";
     } else {
-        // from - phone-xxhdpi-3072-dalvik-heap.mk
+        // from - phone-xhdpi-2048-dalvik-heap.mk
+        heapstartsize = "8m";
+        heapgrowthlimit = "192m";
+        heapsize = "512m";
+        heaptargetutilization = "0.75";
         heapminfree = "512k";
         heapmaxfree = "8m";
     }
 }
 
-void property_override(char const prop[], char const value[], bool add = true)
-{
-    auto pi = (prop_info *) __system_property_find(prop);
-
-    if (pi != nullptr) {
-        __system_property_update(pi, value, strlen(value));
-    } else if (add) {
-        __system_property_add(prop, strlen(prop), value, strlen(value));
-    }
-}
-
 void vendor_load_properties()
 {
+    LOG(INFO) << "Loading vendor specific properties";
+    std::string device = android::base::GetProperty("ro.xiaomi.devinfo", "");
+    LOG(INFO) << "DEVINFO: " << device;
+    bool unknownDevice = true;
+
+    if (device == "gemini") {
+        // This is Gemini
+        property_overrride_triple("ro.product.device", "ro.product.system.device", "ro.product.vendor.device", "gemini");
+        property_overrride_triple("ro.product.model", "ro.product.system.model", "ro.product.vendor.model", "MI 5");
+        property_override("persist.data.iwlan.enable", "false");
+        // Dual SIM
+        property_override("persist.radio.multisim.config", "dsds");
+        property_override("ro.telephony.default_network", "20,20");
+        // Power profile
+        property_override("ro.power_profile.override", "power_profile_gemini");
+        unknownDevice = false;
+    }
+    gemini_whole_netcom
+
     check_device();
 
-    property_override("dalvik.vm.heapstartsize", "8m");
-    property_override("dalvik.vm.heapgrowthlimit", "256m");
-    property_override("dalvik.vm.heapsize", "512m");
-    property_override("dalvik.vm.heaptargetutilization", "0.75");
+    property_override("dalvik.vm.heapstartsize", heapstartsize);
+    property_override("dalvik.vm.heapgrowthlimit", heapgrowthlimit);
+    property_override("dalvik.vm.heapsize", heapsize);
+    property_override("dalvik.vm.heaptargetutilization", heaptargetutilization);
     property_override("dalvik.vm.heapminfree", heapminfree);
     property_override("dalvik.vm.heapmaxfree", heapmaxfree);
 }
