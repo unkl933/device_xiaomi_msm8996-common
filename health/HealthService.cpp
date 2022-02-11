@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#define LOG_TAG "android.hardware.health@2.0-service.leeco_8996"
+#define LOG_TAG "android.hardware.health@2.0-service.xiaomi_8996"
 #include <android-base/logging.h>
 
 #include <healthd/healthd.h>
@@ -34,8 +34,8 @@
 
 using android::hardware::health::V2_0::StorageInfo;
 using android::hardware::health::V2_0::DiskStats;
-using ::device::leeco::leeco_8996::health::CycleCountBackupRestore;
-using ::device::leeco::leeco_8996::health::LearnedCapacityBackupRestore;
+using ::device::xiaomi::xiaomi_8996::health::CycleCountBackupRestore;
+using ::device::xiaomi::xiaomi_8996::health::LearnedCapacityBackupRestore;
 
 static constexpr int kBackupTrigger = 20;
 static constexpr size_t kDiskStatsSize = 11;

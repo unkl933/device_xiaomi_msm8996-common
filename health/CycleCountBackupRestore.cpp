@@ -17,8 +17,8 @@
 #include "CycleCountBackupRestore.h"
 
 namespace device {
-namespace leeco {
-namespace leeco_8996 {
+namespace xiaomi {
+namespace xiaomi_8996 {
 namespace health {
 
 static constexpr char kCycCntFile[] = "sys/class/power_supply/bms/device/cycle_counts_bins";
@@ -127,6 +127,6 @@ void CycleCountBackupRestore::UpdateAndSave()
 }
 
 } // namespace health
-} // namespace leeco_8996
-} // namespace leeco
+} // namespace xiaomi_8996
+} // namespace xiaomi
 } // namespace device

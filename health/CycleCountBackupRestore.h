@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef DEVICE_LEECO_LEECO_8996_HEALTH_CYCLECOUNTBACKUPRESTORE_H
-#define DEVICE_LEECO_LEECO_8996_HEALTH_CYCLECOUNTBACKUPRESTORE_H
+#ifndef DEVICE_XIAOMI_XIAOMI_8996_HEALTH_CYCLECOUNTBACKUPRESTORE_H
+#define DEVICE_XIAOMI_XIAOMI_8996_HEALTH_CYCLECOUNTBACKUPRESTORE_H
 
 #include <string>
 #include <android-base/file.h>
@@ -23,8 +23,8 @@
 #include <android-base/logging.h>
 
 namespace device {
-namespace leeco {
-namespace leeco_8996 {
+namespace xiaomi {
+namespace xiaomi_8996 {
 namespace health {
 
 static constexpr int kBucketCount = 8;
@@ -47,8 +47,8 @@ private:
 };
 
 } // namespace health
-} // namespace leeco_8996
-} // namespace leeco
+} // namespace xiaomi_8996
+} // namespace xiaomi
 } // namespace device
 
-#endif // #ifndef DEVICE_LEECO_LEECO_8996_HEALTH_CYCLECOUNTBACKUPRESTORE_H
+#endif // #ifndef DEVICE_XIAOMI_XIAOMI_8996_HEALTH_CYCLECOUNTBACKUPRESTORE_H

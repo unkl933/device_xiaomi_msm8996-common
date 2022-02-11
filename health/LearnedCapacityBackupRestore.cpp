@@ -17,8 +17,8 @@
 #include "LearnedCapacityBackupRestore.h"
 
 namespace device {
-namespace leeco {
-namespace leeco_8996 {
+namespace xiaomi {
+namespace xiaomi_8996 {
 namespace health {
 
 static constexpr char kChgFullFile[] = "sys/class/power_supply/bms/charge_full";
@@ -102,6 +102,6 @@ void LearnedCapacityBackupRestore::SaveToSRAM() {
 }
 
 }  // namespace health
-}  // namespace leeco_8996
-}  // namespace leeco
+}  // namespace xiaomi_8996
+}  // namespace xiaomi
 }  // namespace device
