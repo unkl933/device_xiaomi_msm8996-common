@@ -31,8 +31,6 @@ using android::hardware::light::V2_0::ILight;
 using android::hardware::light::V2_0::implementation::Led;
 using android::hardware::light::V2_0::implementation::Light;
 
-const static std::string kDeviceInfoPath = "/dev/block/platform/soc/624000.ufshc/by-name/devinfo";
-
 const static std::string kLcdBacklightPath = "/sys/class/leds/lcd-backlight/brightness";
 const static std::string kLcdMaxBacklightPath = "/sys/class/leds/lcd-backlight/max_brightness";
 const static std::string kButton1BacklightPath = "/sys/class/leds/button-backlight/brightness";
