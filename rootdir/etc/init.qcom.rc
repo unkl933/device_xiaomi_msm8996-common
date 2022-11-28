@@ -228,6 +228,22 @@ on boot
     chown system system /sys/devices/soc/soc:fpc_fpc1020/enable_key_events
     chown system system /sys/devices/soc/soc:fpc_fpc1020/enable_wakeup
     chown system system /sys/devices/soc/soc:fpc_fpc1020/proximity_state
+    
+    # Access permission for KCAL
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_enable
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_cont
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_sat
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_hue
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_min
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_val
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_enable
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_cont
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_sat
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_hue
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_min
+    chmod 0660 /sys/devices/platform/kcal_ctrl.0/kcal_val
 
     # Access permission for secure touch
     chmod 0660 /sys/devices/soc/75ba000.i2c/i2c-12/12-0020/secure_touch_enable
@@ -299,6 +315,36 @@ on boot
 
     # Wifi firmware reload path
     chown wifi wifi /sys/module/wlan/parameters/fwpath
+    
+    # Set light thermal restrictions while optimizing apps
+    write /sys/kernel/msm_thermal/enabled 0
+    write /sys/kernel/msm_thermal/zone0  "1996800 2150400 55 54"
+    write /sys/kernel/msm_thermal/zone1  "1728000 2073600 55 54"
+    write /sys/kernel/msm_thermal/zone2  "1593600 1996800 56 55"
+    write /sys/kernel/msm_thermal/zone3  "1593600 1920000 56 55"
+    write /sys/kernel/msm_thermal/zone4  "1478400 1824000 58 58"
+    write /sys/kernel/msm_thermal/zone5  "1478400 1785600 59 59"
+    write /sys/kernel/msm_thermal/zone5  "1478400 1708800 60 60"
+    write /sys/kernel/msm_thermal/zone6  "1401600 1632000 60 60"
+    write /sys/kernel/msm_thermal/zone6  "1401600 1555200 60 60"
+    write /sys/kernel/msm_thermal/zone7  "1401600 1478400 60 60"
+    write /sys/kernel/msm_thermal/zone8  "1401600 1401600 60 60"
+    write /sys/kernel/msm_thermal/zone9  "1324800 1324800 60 60"
+    write /sys/kernel/msm_thermal/zone10 "1324800 1248000 60 60"
+    write /sys/kernel/msm_thermal/zone11 "1228800 1190400 60 60"
+    write /sys/kernel/msm_thermal/zone12 "1190400 1113600 60 60"
+    write /sys/kernel/msm_thermal/zone13 "1113600 1036800 60 60"
+    write /sys/kernel/msm_thermal/zone14 "1036800 940800 61 61"
+    write /sys/kernel/msm_thermal/zone15 "960000 883200 61 61"
+    write /sys/kernel/msm_thermal/zone16 "844800 806400 62 61"
+    write /sys/kernel/msm_thermal/zone17 "729600 729600 62 61"
+    write /sys/kernel/msm_thermal/zone18 "652800 652800 63 62"
+    write /sys/kernel/msm_thermal/zone19 "556800 556800 63 62"
+    write /sys/kernel/msm_thermal/zone20 "480000 480000 63 62"
+    write /sys/kernel/msm_thermal/zone21 "422400 403200 64 65"
+    write /sys/kernel/msm_thermal/zone22 "307200 307200 65 66"
+    write /sys/kernel/msm_thermal/sampling_ms 1000
+    write /sys/kernel/msm_thermal/enabled 1
 
 on property:sys.boot_completed=1
     # Enable ZRAM on boot_complete
