@@ -34,3 +34,5 @@ allow system_app sysfs_torch:dir search;
 # Allow Spectrum to work
 allow system_app spectrum_profile_prop:property_service set;
 get_prop(system_app, spectrum_profile_prop)
+
+allow system_app sysfs_graphics:file { read  open  getattr };
