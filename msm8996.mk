@@ -22,7 +22,8 @@ $(call inherit-product, vendor/xiaomi/msm8996-common/msm8996-common-vendor.mk)
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay
+    $(LOCAL_PATH)/overlay \
+    $(LOCAL_PATH)/overlay-qassa
 
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
