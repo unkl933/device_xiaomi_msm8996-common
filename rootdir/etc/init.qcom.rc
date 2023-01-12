@@ -356,6 +356,16 @@ on boot
     write /sys/kernel/msm_thermal/zone22 "307200 307200 65 66"
     write /sys/kernel/msm_thermal/sampling_ms 1000
     write /sys/kernel/msm_thermal/enabled 1
+    
+    # smart charging
+    chmod 0660 /sys/class/power_supply/battery/charging_enabled
+    chown system system /sys/class/power_supply/battery/charging_enabled
+    chmod 0660 /sys/class/power_supply/bms/charge_full_design
+    chown system system /sys/class/power_supply/bms/charge_full_design
+    chmod 0660 /sys/class/power_supply/bms/charge_counter
+    chown system system /sys/class/power_supply/bms/charge_counter
+    chmod 0660 /sys/class/power_supply/bms/cycle_count
+    chown system system /sys/class/power_supply/bms/cycle_count
 
 on property:sys.boot_completed=1
     # Enable ZRAM on boot_complete
