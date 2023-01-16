@@ -62,9 +62,20 @@ void check_device()
     }
 }
 
+void set_avoid_gfxaccel_config() {
+    struct sysinfo sys;
+    sysinfo(&sys);
+
+    if (sys.totalram <= 3072ull * 1024 * 1024) {
+        // Reduce memory footprint
+        property_set("ro.config.avoid_gfx_accel", "true");
+    }
+}
+
 void vendor_load_properties()
 {
     check_device();
+    set_avoid_gfxaccel_config();
 
     property_set("dalvik.vm.heapstartsize", "8m");
     property_set("dalvik.vm.heapgrowthlimit", "192m");
