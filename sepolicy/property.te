@@ -1,0 +1,2 @@
+type system_panel_prop, property_type;
+type vendor_alarm_prop, property_type;
