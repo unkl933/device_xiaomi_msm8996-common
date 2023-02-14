@@ -13,3 +13,4 @@ sys.listeners.registered   u:object_r:vendor_tee_listener_prop:s0
 
 sys.panel.                 u:object_r:system_panel_prop:s0
 persist.spectrum.profile               u:object_r:spectrum_profile_prop:s0
+camera.hal1.packagelist         u:object_r:exported_default_prop:s0

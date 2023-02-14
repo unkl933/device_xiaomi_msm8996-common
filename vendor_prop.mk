@@ -204,3 +204,7 @@ PRODUCT_PRODUCT_PROPERTIES += \
     ro.lmk.kill_heaviest_task=true \
     ro.lmk.kill_timeout_ms=100 \
     ro.lmk.use_minfree_levels=true
+    
+# camera hal1 bca
+PRODUCT_PRODUCT_PROPERTIES += \
+    camera.hal1.packagelist=com.bca
