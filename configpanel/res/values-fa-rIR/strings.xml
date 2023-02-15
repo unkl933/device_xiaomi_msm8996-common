@@ -16,6 +16,6 @@
 -->
 <resources>
     <!-- App name and summary -->
-    <string name="advanced_settings">Cihaz Ayarları</string>
-    <string name="advanced_settings_summary">Düğmelerin ters çevrilmesi, başlatma olarak dijital sensör vb</string>
+    <string name="advanced_settings">ویژگی های دستگاه</string>
+    <string name="advanced_settings_summary">وارونگی دکمه ها ، سنسور دیجیتال به عنوان شروع و غیره</string>
 </resources>
