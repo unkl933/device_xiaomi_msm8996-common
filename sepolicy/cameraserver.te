@@ -1,1 +1,5 @@
 allow cameraserver persist_camera_prop:file read;
+allow cameraserver camera_data_file:dir { search write add_name };
+allow cameraserver camera_data_file:file { create write open };
+allow cameraserver mediacodec:binder call;
+allow cameraserver sysfs_kgsl:dir { search };
