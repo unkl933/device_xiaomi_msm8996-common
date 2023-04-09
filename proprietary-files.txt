@@ -341,6 +341,15 @@ vendor/lib64/libxtwifi_ulp_adaptor.so
 vendor/lib64/vendor.qti.gnss@1.0_vendor.so
 
 # Graphics (Adreno) from TeamDrivers
+system/etc/adreno.prop
+vendor/etc/permissions/android.hardware.opengles.aep.xml
+vendor/etc/permissions/android.hardware.vulkan.compute.xml
+vendor/etc/permissions/android.hardware.vulkan.compute-0.xml
+vendor/etc/permissions/android.hardware.vulkan.level.xml
+vendor/etc/permissions/android.hardware.vulkan.level-0.xml
+vendor/etc/permissions/android.hardware.vulkan.version.xml
+vendor/etc/permissions/android.hardware.vulkan.version-1_1.xml
+vendor/etc/permissions/android.software.vulkan.deqp.level.xml
 vendor/lib64/egl/eglSubDriverAndroid.so
 vendor/lib64/egl/libEGL_adreno.so
 vendor/lib64/egl/libGLESv1_CM_adreno.so
